@@ -20,7 +20,7 @@ type fontWeight =
 
 export type ILabelProps = {
   size?: number;
-  children?: string | ReactFragment;
+  children?: string | ReactFragment | any;
   color?: string | typeColor;
   style?: StyleProp<TextStyle>;
   textAlign?: textAlign;

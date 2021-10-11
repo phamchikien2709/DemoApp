@@ -4,6 +4,7 @@ import {doLogin} from './action';
 
 interface IinitialState {
   currentUser: any;
+  userName?: string;
   token: any;
   isLoading: boolean;
   error: any;
@@ -14,6 +15,7 @@ const initialState = {
   currentUser: {},
   token: {},
   isLoading: false,
+  userName: '',
   error: {},
   statusScreen: 'splash',
 } as IinitialState;
@@ -26,6 +28,9 @@ const authen = createSlice({
     changeStatusScreen(state, action: PayloadAction<IParamsStatusScreen>) {
       state.statusScreen = action.payload;
     },
+    saveName(state, action: PayloadAction<string>) {
+      state.userName = action.payload;
+    },
   },
   extraReducers: builder => {
     // dologin
@@ -33,22 +38,18 @@ const authen = createSlice({
       state.isLoading = true;
     });
     builder.addCase(doLogin.fulfilled, (state, action) => {
-      if (action.payload.result == 1) {
-        state.currentUser = action.payload.content.user;
-        delete action.payload.content.user;
-        state.token = action.payload.content;
+      if (action.payload?.status == 200) {
         state.statusScreen = 'main';
+        state.token = action.payload.data.access_token;
       }
       state.isLoading = false;
     });
     builder.addCase(doLogin.rejected, (state, action) => {
       state.isLoading = false;
-      state.error = action.error;
     });
-    // logout
   },
 });
 
 const {actions, reducer} = authen;
-export const {changeStatusScreen} = actions;
+export const {changeStatusScreen, saveName} = actions;
 export default reducer;

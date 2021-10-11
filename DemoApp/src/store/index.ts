@@ -4,6 +4,7 @@ import logger from 'redux-logger';
 // import {middlewareSocket} from './middlewareSocket';
 import {persistStore, persistReducer, createTransform} from 'redux-persist';
 import AsyncStorage from '@react-native-community/async-storage';
+import {middlewareCatchApi} from './middlewareCatchApi';
 
 const SetTransformGroup = createTransform(
   // transform state on its way to being serialized and persisted.
@@ -23,7 +24,7 @@ const SetTransformGroup = createTransform(
 const persistConfig = {
   key: 'rootSaga',
   storage: AsyncStorage,
-  blacklist: ['authen'],
+  // blacklist: ['authen'],
   transforms: [SetTransformGroup],
   //   whitelist: ['group', 'privateChat', 'authen', 'sticker'], // Xem thêm tại mục "Quá trình merge".
 };
@@ -34,7 +35,7 @@ export const store = configureStore({
   reducer: pReducer,
   middleware: getDefaultMiddleware({
     serializableCheck: false,
-  }).concat(...(__DEV__ ? [logger] : [])),
+  }).concat(...(__DEV__ ? [logger, middlewareCatchApi] : [])),
   // concat(...(__DEV__ ? [logger, middlewareSocket] : [middlewareSocket])),
 });
 

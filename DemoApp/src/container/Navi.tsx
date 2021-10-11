@@ -7,7 +7,8 @@ import {
   mainStackScreen,
   stackSplash,
   alert,
-  stackUnAuthorized,
+  stackUnAuthorizedScreen,
+  stackUnAuthorizedModal,
 } from 'screens';
 import {useAppSelector} from 'store/hooks';
 import {StatusBar} from 'react-native';
@@ -26,14 +27,27 @@ function Navi() {
   const switchStatusStack = () => {
     switch (statusScreen) {
       case 'unAuthorized': //unauthorized
-        return stackUnAuthorized.map((item, _) => (
-          <Stack.Screen
-            options={translateXOptionsScreen}
-            key={item.name}
-            name={item.name}
-            component={item.component}
-          />
-        ));
+        return (
+          <>
+            {stackUnAuthorizedScreen.map((item, _) => (
+              <Stack.Screen
+                options={translateXOptionsScreen}
+                key={item.name}
+                name={item.name}
+                component={item.component}
+              />
+            ))}
+            {stackUnAuthorizedModal.map((item, _) => (
+              <Stack.Screen
+                options={translateYModal}
+                key={item.name}
+                name={item.name}
+                component={item.component}
+              />
+            ))}
+          </>
+        );
+
       case 'main': //main
         return (
           <>

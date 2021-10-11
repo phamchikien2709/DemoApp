@@ -7,7 +7,7 @@ import {
   StyleProp,
   ViewStyle,
 } from 'react-native';
-import {heightScale, widthScale} from 'utils';
+import {heightScale, heightScreen, widthScale, widthScreen} from 'utils';
 import React from 'react';
 
 interface Insets {
@@ -126,6 +126,7 @@ export interface IPropsDiv {
   widthHeight?: number;
   style?: StyleProp<ViewStyle>;
   divRef?: any;
+  screen?: boolean;
 }
 
 export const ComponentDiv = styled.View`
@@ -274,4 +275,6 @@ export const ComponentDiv = styled.View`
   ${({bottom}: IPropsDiv) => bottom && `left:${heightScale(bottom || 0)}px`};
   ${({backgroundColor}: IPropsDiv) =>
     `background-color:${backgroundColor || 'transparent'}`};
+  ${({screen}: IPropsDiv) =>
+    screen && `width:${widthScreen}px ; height:${heightScreen}px`};
 `;

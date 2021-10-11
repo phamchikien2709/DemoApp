@@ -1,7 +1,15 @@
 export type appScreen =
   | 'ProfileScreen'
   | 'SearchModal'
-  | 'LoginScreen'
   | 'RegisterScreen'
   | 'SplashScreen'
-  | 'Alert';
+  | 'OverViewScreen'
+  | 'InvestMentScreen'
+  | 'ManageScreen'
+  | 'ProductDetailsModal'
+  | 'Alert'
+  | 'LoginScreen'
+  | 'OtpRequestModal'
+  | 'ForgotPasswordScreen'
+  | 'SetPasswordScreen'
+  | 'RegisterScreen';

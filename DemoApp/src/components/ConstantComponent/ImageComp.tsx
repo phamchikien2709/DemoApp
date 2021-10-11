@@ -46,6 +46,7 @@ export interface IImageProps {
   // view style
   backfaceVisibility?: 'visible' | 'hidden';
   backgroundColor?: string;
+  tintColor?: string;
   borderBottomColor?: string;
   borderBottomEndRadius?: number;
   borderBottomLeftRadius?: number;
@@ -298,4 +299,5 @@ export const ComponentImage = styled.Image`
   ${({right}: IImageProps) => right && `left:${widthScale(right || 0)}px`};
   ${({top}: IImageProps) => top && `left:${heightScale(top || 0)}px`};
   ${({bottom}: IImageProps) => bottom && `left:${heightScale(bottom || 0)}px`};
+  ${({tintColor}: IImageProps) => tintColor && `tintColor:${tintColor}`};
 `;

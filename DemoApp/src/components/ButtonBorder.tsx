@@ -3,19 +3,23 @@ import {Ecolors} from 'constant';
 import React from 'react';
 import {ActivityIndicator, StyleSheet} from 'react-native';
 
-interface PropsBtnRegister {
+interface PropsButtonBorder {
   title?: string;
   onPress?: () => void;
   marginTop?: number;
   loading?: boolean | undefined;
+  isNoColor?: boolean;
+  width?: number;
 }
 
-function BtnRegister({
+function ButtonBorder({
   title = '',
   onPress,
   loading = false,
+  isNoColor = false,
   marginTop = 30,
-}: PropsBtnRegister) {
+  width = 200,
+}: PropsButtonBorder) {
   return (
     <Div
       width={'100%'}
@@ -27,12 +31,17 @@ function BtnRegister({
         overflow={'hidden'}
         alignItems={'center'}
         justifyContent={'center'}
-        backgroundColor={Ecolors.blue}
-        width={200}
+        backgroundColor={isNoColor ? Ecolors.white : Ecolors.blue}
+        width={width}
         height={40}
-        borderRadius={50}
+        borderRadius={10}
+        borderWidth={isNoColor ? 1 : 0}
+        borderColor={Ecolors.black}
         onPress={() => onPress && onPress()}>
-        <Label fontWeight={'bold'} color={Ecolors.white} size={15}>
+        <Label
+          fontWeight={'bold'}
+          color={isNoColor ? Ecolors.textColor : Ecolors.white}
+          size={15}>
           {title}
         </Label>
         {loading && (
@@ -49,4 +58,4 @@ function BtnRegister({
   );
 }
 
-export default React.memo(BtnRegister);
+export default React.memo(ButtonBorder);
