@@ -251,8 +251,7 @@ function OtpRequestModal() {
         </Label>
         <OtpComp
           ref={otpCompRef}
-          // maxTime={(requestOnSendOtp?.expiredDurationInMinutes || 0) * 60}
-          maxTime={10}
+          maxTime={(requestOnSendOtp?.expiredDurationInMinutes || 0) * 60}
           otp={otp}
           setOtp={setOtp}
           isInTime={isInTime}
