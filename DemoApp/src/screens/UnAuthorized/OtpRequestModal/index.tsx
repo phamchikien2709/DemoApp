@@ -1,4 +1,4 @@
-import {useRoute} from '@react-navigation/core';
+import {RouteProp, useRoute} from '@react-navigation/core';
 import {Button, ButtonBorder, Div, ImageView, Label} from 'components';
 import {Ecolors, Icons} from 'constant';
 import React, {useEffect, useRef, useState} from 'react';
@@ -8,7 +8,7 @@ import {goBack, navigate} from 'services/navigation';
 import OtpComp from './OtpComp';
 
 interface Iparams {
-  data: {
+  data?: {
     name?: string;
     email?: string;
     phone?: string;
@@ -62,17 +62,17 @@ function OtpRequestModal() {
       if (res.status == 200) {
         setRequestOnSendOtp(res.data);
       } else {
-        Alert.alert(res.message, '', [
-          {
-            text: 'Ok',
-            onPress: () => {
-              goBack();
-            },
-          },
-        ]);
+        // Alert.alert(res.message, '', [
+        //   {
+        //     text: 'Ok',
+        //     onPress: () => {
+        //       goBack();
+        //     },
+        //   },
+        // ]);
       }
     } catch (error: any) {
-      Alert.alert(error || '', '', [
+      Alert.alert(error.message || '', '', [
         {
           text: 'Ok',
           onPress: () => {
@@ -104,6 +104,7 @@ function OtpRequestModal() {
         userRefCode,
         username: phone,
       });
+      console.log('signupOtp', res);
       if (res.status == 200) {
         setRequestOnSendOtp(res.data);
       } else {
@@ -117,7 +118,7 @@ function OtpRequestModal() {
         ]);
       }
     } catch (error: any) {
-      Alert.alert(error || '', '', [
+      Alert.alert(error.message || '', '', [
         {
           text: 'Ok',
           onPress: () => {
@@ -138,17 +139,17 @@ function OtpRequestModal() {
           otpCompRef.current.start();
         }
       } else {
-        Alert.alert(res.message, '', [
-          {
-            text: 'Ok',
-            onPress: () => {
-              // goBack();
-            },
-          },
-        ]);
+        // Alert.alert(res.message, '', [
+        //   {
+        //     text: 'Ok',
+        //     onPress: () => {
+        //       // goBack();
+        //     },
+        //   },
+        // ]);
       }
     } catch (error: any) {
-      Alert.alert(error || '', '', [
+      Alert.alert(error.message || '', '', [
         {
           text: 'Ok',
           onPress: () => {
@@ -168,6 +169,7 @@ function OtpRequestModal() {
         ...requestOnSendOtp,
         otp,
       });
+      console.log('onConfirm', res);
       if (res.status == 200) {
         if (params.data.flowApp == 'ForgotPassword') {
           navigate('SetPasswordScreen', {
@@ -189,7 +191,48 @@ function OtpRequestModal() {
         ]);
       }
     } catch (error: any) {
-      Alert.alert(error || '', '', [
+      Alert.alert(error.message || '', '', [
+        {
+          text: 'Ok',
+          onPress: () => {
+            // goBack();
+          },
+        },
+      ]);
+      // show error
+    } finally {
+      setLoadingConfim(false);
+    }
+  };
+
+  const onForgetPassConfirm = async () => {
+    try {
+      setLoadingConfim(true);
+      const res = await apiAuth.forgotPassConfirm({
+        ...requestOnSendOtp,
+        otp,
+      });
+      console.log('onConfirm', res);
+      if (res.status == 200) {
+        navigate('SetPasswordScreen', {
+          data: {
+            username: params.data.username,
+            otpTransId: requestOnSendOtp.otpTransId,
+            flowApp: params.data.flowApp,
+          },
+        });
+      } else {
+        Alert.alert(res.message, '', [
+          {
+            text: 'Ok',
+            onPress: () => {
+              // goBack();
+            },
+          },
+        ]);
+      }
+    } catch (error: any) {
+      Alert.alert(error.message || '', '', [
         {
           text: 'Ok',
           onPress: () => {
@@ -261,6 +304,10 @@ function OtpRequestModal() {
           loading={loadingConfirm}
           onPress={() => {
             if (isInTime && !loadingConfirm) {
+              if (params.data.flowApp == 'ForgotPassword') {
+                onForgetPassConfirm();
+                return;
+              }
               onConfirm();
             }
           }}

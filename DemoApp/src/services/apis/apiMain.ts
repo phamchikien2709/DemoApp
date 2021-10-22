@@ -1,5 +1,5 @@
 import {Alert} from 'react-native';
-import axiosApp, {doGetAxios, doPostAxios} from './axios';
+import {doGetAxios, doPostAxios} from './axios';
 
 export const apiMain = {
   getDashBoard: async () => {
@@ -10,11 +10,10 @@ export const apiMain = {
         const obj: IDashBoard = res.data;
         return obj;
       }
-      Alert.alert(`${res}`);
-      return res?.response;
-    } catch (error) {
-      console.log('errorr', error);
-      Alert.alert(`${error}`);
+      throw res?.response;
+    } catch (error: any) {
+      Alert.alert(`${error.message}`);
+      throw error;
     }
   },
 };

@@ -19,7 +19,7 @@ function OverViewScreen() {
   }, []);
 
   const getData = async () => {
-    dispatch(doGetDashBoard());
+    // dispatch(doGetDashBoard());
   };
 
   return (
@@ -28,7 +28,11 @@ function OverViewScreen() {
       flex={1}
       alignItems={'center'}
       justifyContent={'center'}>
-      <ListProduct />
+      <ListProduct
+        onRefresh={() => {
+          dispatch(doGetDashBoard());
+        }}
+      />
     </Div>
   );
 }
