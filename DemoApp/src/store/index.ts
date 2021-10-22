@@ -3,7 +3,7 @@ import {configureStore, getDefaultMiddleware} from '@reduxjs/toolkit';
 import logger from 'redux-logger';
 // import {middlewareSocket} from './middlewareSocket';
 import {persistStore, persistReducer, createTransform} from 'redux-persist';
-import AsyncStorage from '@react-native-community/async-storage';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import {middlewareCatchApi} from './middlewareCatchApi';
 
 const SetTransformGroup = createTransform(

@@ -30,6 +30,7 @@ export const heightScale = (num: number | string): number => {
   if (typeof num === 'string') {
     return parseInt(num);
   }
+  return widthScale(num)
   return (num * heightScreen) / defaultScreen.height;
 };
 

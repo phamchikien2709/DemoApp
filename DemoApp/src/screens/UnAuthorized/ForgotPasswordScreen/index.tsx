@@ -8,6 +8,16 @@ import {goBack, navigate} from 'services/navigation';
 function ForgotPasswordScreen() {
   const [username, setUserName] = useState<string>('');
 
+  const gotoRequestOtp = () => {
+    navigate('OtpRequestModal', {
+      data: {
+        username,
+        flowApp: 'ForgotPassword',
+      },
+    });
+    return;
+  };
+
   return (
     <Div screen={true}>
       <HeaderBack title={'Quên mật khẩu'} />
@@ -27,17 +37,7 @@ function ForgotPasswordScreen() {
         onChangeText={setUserName}
         marginHorizontal={10}
       />
-      <ButtonBorder
-        title={'Tiếp tục'}
-        onPress={() => {
-          navigate('OtpRequestModal', {
-            data: {
-              username,
-              flowApp: 'ForgotPassword',
-            },
-          });
-        }}
-      />
+      <ButtonBorder title={'Tiếp tục'} onPress={gotoRequestOtp} />
     </Div>
   );
 }
