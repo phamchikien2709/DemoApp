@@ -11,6 +11,12 @@ interface IAxiosResponse {
   message: string;
   status: number;
 }
+interface IAxiosError {
+  data: any;
+  message: string;
+  status: number;
+  content?: any;
+}
 
 interface IResAuthToken {
   access_token: string;

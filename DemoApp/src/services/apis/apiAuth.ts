@@ -1,6 +1,6 @@
 import {Alert} from 'react-native';
 import {setStoreToken} from 'utils/storage';
-import axiosApp, {doGetAxios, doPostAxios} from './axios';
+import {doGetAxios, doPostAxios} from './axios';
 
 export const apiAuth = {
   login: async (params: IParamsLogin) => {
@@ -17,10 +17,11 @@ export const apiAuth = {
           data: objToken,
         };
       }
-      Alert.alert(`${res}`);
-      return;
-    } catch (error) {
-      Alert.alert(`${error}`);
+      Alert.alert(`${res.message}`);
+      throw res;
+    } catch (error: any) {
+      Alert.alert(`${error.message}`);
+      throw error;
     }
   },
   signupOtp: async (params: {
@@ -33,17 +34,21 @@ export const apiAuth = {
     username?: string;
     userRefCode?: string | null;
   }) => {
-    const url = 'sign-up-otp/create';
-    return doPostAxios(url, {
-      email: params.email || '',
-      name: params.name || '',
-      phone: params.phone || '',
-      username: params.username || '',
-      password: params.password || '',
-      confirmPassword: params.confirmPassword || '',
-      phonePostal: params.phonePostal || '',
-      userRefCode: params.userRefCode || null,
-    });
+    try {
+      const url = 'sign-up-otp/create';
+      return doPostAxios(url, {
+        email: params.email || '',
+        name: params.name || '',
+        phone: params.phone || '',
+        username: params.username || '',
+        password: params.password || '',
+        confirmPassword: params.confirmPassword || '',
+        phonePostal: params.phonePostal || '',
+        userRefCode: params.userRefCode || null,
+      });
+    } catch (error: any) {
+      throw error;
+    }
   },
   resendOtp: async (params: {
     expiredDurationInMinutes?: number;
@@ -52,14 +57,18 @@ export const apiAuth = {
     time?: number;
     transId?: string;
   }) => {
-    const url = 'otp/resend';
-    return doPostAxios(url, {
-      expiredTime: params.expiredTime || 0,
-      expiredDurationInMinutes: params.expiredDurationInMinutes || 0,
-      time: params.time || 0,
-      otpTransId: params.otpTransId || '',
-      transId: params.transId || '',
-    });
+    try {
+      const url = 'otp/resend';
+      return doPostAxios(url, {
+        expiredTime: params.expiredTime || 0,
+        expiredDurationInMinutes: params.expiredDurationInMinutes || 0,
+        time: params.time || 0,
+        otpTransId: params.otpTransId || '',
+        transId: params.transId || '',
+      });
+    } catch (error: any) {
+      throw error;
+    }
   },
   confirm: async (params: {
     expiredDurationInMinutes?: number;
@@ -69,21 +78,63 @@ export const apiAuth = {
     transId?: string;
     otp?: string;
   }) => {
-    const url = 'sign-up-otp/confirm';
-    return doPostAxios(url, {
-      expiredTime: params.expiredTime || 0,
-      expiredDurationInMinutes: params.expiredDurationInMinutes || 0,
-      time: params.time || 0,
-      otpTransId: params.otpTransId || '',
-      transId: params.transId || '',
-      otp: params.otp || '',
-    });
+    try {
+      const url = 'sign-up-otp/confirm';
+      return doPostAxios(url, {
+        expiredTime: params.expiredTime || 0,
+        expiredDurationInMinutes: params.expiredDurationInMinutes || 0,
+        time: params.time || 0,
+        otpTransId: params.otpTransId || '',
+        transId: params.transId || '',
+        otp: params.otp || '',
+      });
+    } catch (error: any) {
+      throw error;
+    }
   },
   // forgot password
   forgotPassSendOtp: async (params: {username?: string}) => {
-    const url = 'forgot-password/send';
+    try {
+      const url = 'forgot-password/send';
+      return doPostAxios(url, {
+        username: params.username || '',
+      });
+    } catch (error: any) {
+      throw error;
+    }
+  },
+  forgotPassConfirm: (params: {
+    expiredDurationInMinutes?: number;
+    expiredTime?: number;
+    otpTransId?: string;
+    time?: number;
+    transId?: string;
+    otp?: string;
+  }) => {
+    try {
+      const url = 'forgot-password/confirm';
+      return doPostAxios(url, {
+        expiredTime: params.expiredTime || 0,
+        expiredDurationInMinutes: params.expiredDurationInMinutes || 0,
+        time: params.time || 0,
+        otpTransId: params.otpTransId || '',
+        transId: params.transId || '',
+        otp: params.otp || '',
+      });
+    } catch (error: any) {
+      throw error;
+    }
+  },
+  resetPassword: (params: {
+    confirmPassword: string;
+    otpTransId: string;
+    password: string;
+  }) => {
+    const url = 'forgot-password/reset';
     return doPostAxios(url, {
-      username: params.username || '',
+      confirmPassword: params.confirmPassword,
+      otpTransId: params.otpTransId,
+      password: params.password,
     });
   },
 };

@@ -1,3 +1,4 @@
+import {setStoreToken} from 'utils/storage';
 import {ActivityIndicator} from 'react-native';
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
 import {doLogin} from './action';
@@ -26,6 +27,9 @@ const authen = createSlice({
   reducers: {
     // change status screen
     changeStatusScreen(state, action: PayloadAction<IParamsStatusScreen>) {
+      if (action.payload == 'unAuthorized') {
+        setStoreToken('');
+      }
       state.statusScreen = action.payload;
     },
     saveName(state, action: PayloadAction<string>) {
@@ -39,7 +43,7 @@ const authen = createSlice({
     });
     builder.addCase(doLogin.fulfilled, (state, action) => {
       if (action.payload?.status == 200) {
-        state.statusScreen = 'main';
+        // state.statusScreen = 'main';
         state.token = action.payload.data.access_token;
       }
       state.isLoading = false;
